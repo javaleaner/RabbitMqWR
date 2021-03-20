@@ -24,8 +24,8 @@ namespace RabbitMqWR
             factory = new ConnectionFactory()
             {
                 HostName = "localhost",//主机名，Rabbit会拿这个IP生成一个endpoint，这个很熟悉吧，就是socket绑定的那个终结点。
-                UserName = "guest",//默认用户名,用户可以在服务端自定义创建，有相关命令行
-                Password = "guest",//默认密码
+                UserName = "scott",//默认用户名,用户可以在服务端自定义创建，有相关命令行
+                Password = "tiger",//默认密码
                 Port = 5672
             };
             connection = factory.CreateConnection();
@@ -48,7 +48,7 @@ namespace RabbitMqWR
                         var properties = channel.CreateBasicProperties();
                         properties.DeliveryMode = 1;
             var prop = properties.Persistent;
-                        string message = "I am scott ,now is "+DateTime.Now.ToString("HH:mm:ss"); //传递的消息内容
+                        string message = "I am scott ,now is "+DateTime.Now.ToString("HHmmssfff"); //传递的消息内容
                         richTextBox1.AppendText(message+"\r\n");
             //          exchange,routingkey,property,msgBody
                         channel.BasicPublish("amq.direct", "test1", properties, Encoding.UTF8.GetBytes(message)); //生产消息
@@ -110,7 +110,7 @@ namespace RabbitMqWR
             var properties = channel.CreateBasicProperties();
             properties.DeliveryMode = 1;
             var prop = properties.Persistent;
-            message +=  DateTime.Now.ToString("HH:mm:ss"); //传递的消息内容
+            message =string.Format("{0}<{1}>{2}","生產者2",message,DateTime.Now.ToString("HHmmssfff"))  ; //传递的消息内容
             richTextBox4.AppendText(message + "\r\n");
             //          exchange,routingkey,property,msgBody
             channel.BasicPublish("helloworld", "test1", null, Encoding.UTF8.GetBytes(message)); //生产消息
@@ -138,7 +138,7 @@ namespace RabbitMqWR
                 var body = ea.Body;
                 var message = Encoding.UTF8.GetString(body);
                 Thread.Sleep(1000);
-                richTextBox3.AppendText(message +" handletime->"+DateTime.Now.ToString("HH:mm:ss") +"\r\n");
+                richTextBox3.AppendText(message +"-消費者2-"+DateTime.Now.ToString("HHmmssfff") +"\r\n");
             };
             //channel.BasicAck();
             //consumer.Received += MsgHandle;
@@ -168,12 +168,13 @@ namespace RabbitMqWR
 
             channel.QueueDeclare("test1", true, false, false, null);//创建一个名称为kibaqueue的消息队列
             var properties = channel.CreateBasicProperties();
-            properties.DeliveryMode = 1;
+            properties.DeliveryMode = 2;//Non-persistent (1) or persistent (2).設置為2后即使重啟rabbitmq該消息也不會丟失
             var prop = properties.Persistent;
-            message += DateTime.Now.ToString("HH:mm:ss"); //传递的消息内容
+            message = string.Format("{0}<{1}>{2}", "生產者3", message, DateTime.Now.ToString("HHmmssfff")); //传递的消息内容
             richTextBox6.AppendText(message + "\r\n");
+            
             //          exchange,routingkey,property,msgBody
-            channel.BasicPublish("helloworld", "test1", null, Encoding.UTF8.GetBytes(message)); //生产消息
+            channel.BasicPublish("helloworld", "test1", properties, Encoding.UTF8.GetBytes(message)); //生产消息
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -182,14 +183,7 @@ namespace RabbitMqWR
             
             channel.QueueDeclare("test1", true, false, false, null);
 
-            /* 这里定义了一个消费者，用于消费服务器接受的消息
-             * C#开发需要注意下这里，在一些非面向对象和面向对象比较差的语言中，是非常重视这种设计模式的。
-             * 比如RabbitMQ使用了生产者与消费者模式，然后很多相关的使用文章都在拿这个生产者和消费者来表述。
-             * 但是，在C#里，生产者与消费者对我们而言，根本算不上一种设计模式，他就是一种最基础的代码编写规则。
-             * 所以，大家不要复杂的名词吓到，其实，并没那么复杂。
-             * 这里，其实就是定义一个EventingBasicConsumer类型的对象，然后该对象有个Received事件，
-             * 该事件会在服务接收到数据时触发。
-             */
+            
             var consumer = new EventingBasicConsumer(channel);//消费者
             channel.BasicConsume("test1", false, consumer);//消费消息noAck設置為false需要手動確認發送回執
             consumer.Received += (model, ea) =>
@@ -197,8 +191,9 @@ namespace RabbitMqWR
                 var body = ea.Body;
                 var message = Encoding.UTF8.GetString(body);
                 Thread.Sleep(6000);
-                channel.BasicAck(ea.DeliveryTag,false);//手動發送確認回執
-                richTextBox5.AppendText(message + " handletime->" + DateTime.Now.ToString("HH:mm:ss") + "\r\n");
+                //channel.BasicAck(ea.DeliveryTag,false);//手動發送確認回執
+                channel.BasicNack(ea.DeliveryTag, false, true);//消息處理異常時重新發送
+                richTextBox5.AppendText(message + "-消費者3-" + DateTime.Now.ToString("HHmmssfff") + "\r\n");
             };
             
             //consumer.Received += MsgHandle;

@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using RabbitMQ.Client;
@@ -119,6 +120,7 @@ namespace RabbitMqWR
 
         private void button3_Click(object sender, EventArgs e)
         {
+            //接收消息2
             channel.QueueDeclare("test1", true, false, false, null);
 
             /* 这里定义了一个消费者，用于消费服务器接受的消息
@@ -135,18 +137,71 @@ namespace RabbitMqWR
             {
                 var body = ea.Body;
                 var message = Encoding.UTF8.GetString(body);
-                richTextBox3.AppendText(message + "\r\n");
+                Thread.Sleep(1000);
+                richTextBox3.AppendText(message +" handletime->"+DateTime.Now.ToString("HH:mm:ss") +"\r\n");
             };
-            channel.BasicAck();
+            //channel.BasicAck();
             //consumer.Received += MsgHandle;
 
         }
-
+        /// <summary>
+        /// 消息事件處理方法consumer.Received += MsgHandle;
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="e"></param>
         private void MsgHandle(object model, BasicDeliverEventArgs e)
         {
             var body = e.Body;
             var msg = Encoding.UTF8.GetString(body);
             richTextBox3.AppendText(msg + "\r\n");
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            //消息回執發送3
+            string message = textBox2.Text;
+            if (message == "")
+            {
+                MessageBox.Show("消息為空！", "提示", MessageBoxButtons.OK);
+                return;
+            }
+
+            channel.QueueDeclare("test1", true, false, false, null);//创建一个名称为kibaqueue的消息队列
+            var properties = channel.CreateBasicProperties();
+            properties.DeliveryMode = 1;
+            var prop = properties.Persistent;
+            message += DateTime.Now.ToString("HH:mm:ss"); //传递的消息内容
+            richTextBox6.AppendText(message + "\r\n");
+            //          exchange,routingkey,property,msgBody
+            channel.BasicPublish("helloworld", "test1", null, Encoding.UTF8.GetBytes(message)); //生产消息
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            //消息回執接收消息3
+            
+            channel.QueueDeclare("test1", true, false, false, null);
+
+            /* 这里定义了一个消费者，用于消费服务器接受的消息
+             * C#开发需要注意下这里，在一些非面向对象和面向对象比较差的语言中，是非常重视这种设计模式的。
+             * 比如RabbitMQ使用了生产者与消费者模式，然后很多相关的使用文章都在拿这个生产者和消费者来表述。
+             * 但是，在C#里，生产者与消费者对我们而言，根本算不上一种设计模式，他就是一种最基础的代码编写规则。
+             * 所以，大家不要复杂的名词吓到，其实，并没那么复杂。
+             * 这里，其实就是定义一个EventingBasicConsumer类型的对象，然后该对象有个Received事件，
+             * 该事件会在服务接收到数据时触发。
+             */
+            var consumer = new EventingBasicConsumer(channel);//消费者
+            channel.BasicConsume("test1", false, consumer);//消费消息noAck設置為false需要手動確認發送回執
+            consumer.Received += (model, ea) =>
+            {
+                var body = ea.Body;
+                var message = Encoding.UTF8.GetString(body);
+                Thread.Sleep(6000);
+                channel.BasicAck(ea.DeliveryTag,false);//手動發送確認回執
+                richTextBox5.AppendText(message + " handletime->" + DateTime.Now.ToString("HH:mm:ss") + "\r\n");
+            };
+            
+            //consumer.Received += MsgHandle;
         }
         
     }

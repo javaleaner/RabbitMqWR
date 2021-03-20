@@ -1,0 +1,11 @@
+D:\我的文件\Visual Studio 2010\Projects\RabbitMqWR\RabbitMqWR\bin\Debug\RabbitMqWR.exe.config
+D:\我的文件\Visual Studio 2010\Projects\RabbitMqWR\RabbitMqWR\bin\Debug\RabbitMqWR.exe
+D:\我的文件\Visual Studio 2010\Projects\RabbitMqWR\RabbitMqWR\bin\Debug\RabbitMqWR.pdb
+D:\我的文件\Visual Studio 2010\Projects\RabbitMqWR\RabbitMqWR\obj\Debug\RabbitMqWR.csprojResolveAssemblyReference.cache
+D:\我的文件\Visual Studio 2010\Projects\RabbitMqWR\RabbitMqWR\obj\Debug\RabbitMqWR.Properties.Resources.resources
+D:\我的文件\Visual Studio 2010\Projects\RabbitMqWR\RabbitMqWR\obj\Debug\RabbitMqWR.csproj.GenerateResource.Cache
+D:\我的文件\Visual Studio 2010\Projects\RabbitMqWR\RabbitMqWR\obj\Debug\RabbitMqWR.exe
+D:\我的文件\Visual Studio 2010\Projects\RabbitMqWR\RabbitMqWR\obj\Debug\RabbitMqWR.pdb
+D:\我的文件\Visual Studio 2010\Projects\RabbitMqWR\RabbitMqWR\bin\Debug\RabbitMQ.Client.dll
+D:\我的文件\Visual Studio 2010\Projects\RabbitMqWR\RabbitMqWR\bin\Debug\RabbitMQ.Client.xml
+D:\我的文件\Visual Studio 2010\Projects\RabbitMqWR\RabbitMqWR\obj\Debug\RabbitMqWR.Form1.resources

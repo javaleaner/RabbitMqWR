@@ -41,17 +41,19 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.richTextBox5 = new System.Windows.Forms.RichTextBox();
             this.richTextBox6 = new System.Windows.Forms.RichTextBox();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.richTextBox7 = new System.Windows.Forms.RichTextBox();
             this.richTextBox8 = new System.Windows.Forms.RichTextBox();
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
+            this.richTextBox9 = new System.Windows.Forms.RichTextBox();
+            this.button9 = new System.Windows.Forms.Button();
             this.tbControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -194,21 +196,6 @@
             this.tabPage3.Text = "工作消息持久化";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.textBox3);
-            this.tabPage4.Controls.Add(this.richTextBox7);
-            this.tabPage4.Controls.Add(this.richTextBox8);
-            this.tabPage4.Controls.Add(this.button7);
-            this.tabPage4.Controls.Add(this.button8);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(543, 232);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "發佈訂閱模式";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(6, 18);
@@ -252,6 +239,23 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.button9);
+            this.tabPage4.Controls.Add(this.richTextBox9);
+            this.tabPage4.Controls.Add(this.textBox3);
+            this.tabPage4.Controls.Add(this.richTextBox7);
+            this.tabPage4.Controls.Add(this.richTextBox8);
+            this.tabPage4.Controls.Add(this.button7);
+            this.tabPage4.Controls.Add(this.button8);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(543, 232);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "發佈訂閱模式";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
             // textBox3
             // 
             this.textBox3.Location = new System.Drawing.Point(6, 18);
@@ -263,7 +267,7 @@
             // 
             this.richTextBox7.Location = new System.Drawing.Point(274, 6);
             this.richTextBox7.Name = "richTextBox7";
-            this.richTextBox7.Size = new System.Drawing.Size(263, 191);
+            this.richTextBox7.Size = new System.Drawing.Size(263, 90);
             this.richTextBox7.TabIndex = 15;
             this.richTextBox7.Text = "";
             // 
@@ -277,12 +281,13 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(366, 203);
+            this.button7.Location = new System.Drawing.Point(295, 203);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(75, 23);
             this.button7.TabIndex = 13;
             this.button7.Text = "接收消息4";
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button8
             // 
@@ -292,6 +297,25 @@
             this.button8.TabIndex = 12;
             this.button8.Text = "發送消息4";
             this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // richTextBox9
+            // 
+            this.richTextBox9.Location = new System.Drawing.Point(274, 107);
+            this.richTextBox9.Name = "richTextBox9";
+            this.richTextBox9.Size = new System.Drawing.Size(263, 90);
+            this.richTextBox9.TabIndex = 17;
+            this.richTextBox9.Text = "";
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(399, 203);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(75, 23);
+            this.button9.TabIndex = 18;
+            this.button9.Text = "接收消息4";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // Form1
             // 
@@ -341,6 +365,8 @@
         private System.Windows.Forms.RichTextBox richTextBox8;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.RichTextBox richTextBox9;
+        private System.Windows.Forms.Button button9;
     }
 }
 

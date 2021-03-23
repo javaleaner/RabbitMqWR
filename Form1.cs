@@ -18,6 +18,7 @@ namespace RabbitMqWR
         public ConnectionFactory factory;
         public IConnection connection;
         public IModel channel;
+        public IModel subsrcptnModel;
         public Form1()
         {
             InitializeComponent();
@@ -30,6 +31,7 @@ namespace RabbitMqWR
             };
             connection = factory.CreateConnection();
             channel = connection.CreateModel();
+            subsrcptnModel = connection.CreateModel();//發佈訂閱模式通道
             CheckForIllegalCrossThreadCalls = false;
         }
 
@@ -47,7 +49,7 @@ namespace RabbitMqWR
                         channel.QueueDeclare("test1", true, false, false, null);//创建一个名称为kibaqueue的消息队列
                         var properties = channel.CreateBasicProperties();
                         properties.DeliveryMode = 1;
-            var prop = properties.Persistent;
+                        var prop = properties.Persistent;
                         string message = "I am scott ,now is "+DateTime.Now.ToString("HHmmssfff"); //传递的消息内容
                         richTextBox1.AppendText(message+"\r\n");
             //          exchange,routingkey,property,msgBody
@@ -197,6 +199,79 @@ namespace RabbitMqWR
             };
             
             //consumer.Received += MsgHandle;
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            //消息回執發送4 訂閱模式發送消息
+            //exchange type fanout
+            string message = textBox3.Text;
+            if (message == "")
+            {
+                MessageBox.Show("消息為空！", "提示", MessageBoxButtons.OK);
+                return;
+            }
+            subsrcptnModel.ExchangeDeclare("logs","fanout");//定義fanout交換機
+            
+            message = string.Format("{0}<{1}>{2}", "生產者4", message, DateTime.Now.ToString("HHmmssfff")); //传递的消息内容
+            richTextBox8.AppendText(message + "\r\n");
+            //第一个参数,向指定的交换机发送消息
+            //第二个参数,不指定队列,由消费者向交换机绑定队列
+            //如果还没有队列绑定到交换器，消息就会丢失，
+            //但这对我们来说没有问题;即使没有消费者接收，我们也可以安全地丢弃这些信息。
+            //          exchange,routingkey,property,msgBody
+            subsrcptnModel.BasicPublish("logs", "", null, Encoding.UTF8.GetBytes(message)); //生产消息
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            //消息接收4
+            //自动生成对列名,
+            //非持久,独占,自动删除
+            string queueName = subsrcptnModel.QueueDeclare().QueueName;
+            //把该队列,绑定到 logs 交换机
+		    //对于 fanout 类型的交换机, routingKey会被忽略，不允许null值
+            subsrcptnModel.QueueBind(queueName,"logs","");
+            
+            
+            var consumer = new EventingBasicConsumer(subsrcptnModel);
+            
+            consumer.Received += (model, ea) =>
+            {
+                var body = ea.Body;
+                var message = Encoding.UTF8.GetString(body);
+                Thread.Sleep(6000);
+                //channel.BasicAck(ea.DeliveryTag,false);//手動發送確認回執
+                //channel.BasicNack(ea.DeliveryTag, false, true);//消息處理異常時重新發送
+                richTextBox7.AppendText(message + "-消費者4-" + DateTime.Now.ToString("HHmmssfff") + "\r\n");
+            };
+            subsrcptnModel.BasicConsume(queueName, true, consumer);
+
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            //消息接收4
+            //自动生成对列名,
+            //非持久,独占,自动删除
+            string queueName = subsrcptnModel.QueueDeclare().QueueName;
+            //把该队列,绑定到 logs 交换机
+            //对于 fanout 类型的交换机, routingKey会被忽略，不允许null值
+            subsrcptnModel.QueueBind(queueName, "logs", "");
+
+
+            var consumer = new EventingBasicConsumer(subsrcptnModel);
+
+            consumer.Received += (model, ea) =>
+            {
+                var body = ea.Body;
+                var message = Encoding.UTF8.GetString(body);
+                Thread.Sleep(6000);
+                //channel.BasicAck(ea.DeliveryTag,false);//手動發送確認回執
+                //channel.BasicNack(ea.DeliveryTag, false, true);//消息處理異常時重新發送
+                richTextBox9.AppendText(message + "-消費者5-" + DateTime.Now.ToString("HHmmssfff") + "\r\n");
+            };
+            subsrcptnModel.BasicConsume(queueName, true, consumer);
         }
         
     }

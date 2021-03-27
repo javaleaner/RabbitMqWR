@@ -47,18 +47,27 @@
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.button9 = new System.Windows.Forms.Button();
+            this.richTextBox9 = new System.Windows.Forms.RichTextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.richTextBox7 = new System.Windows.Forms.RichTextBox();
             this.richTextBox8 = new System.Windows.Forms.RichTextBox();
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
-            this.richTextBox9 = new System.Windows.Forms.RichTextBox();
-            this.button9 = new System.Windows.Forms.Button();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.button10 = new System.Windows.Forms.Button();
+            this.richTextBox10 = new System.Windows.Forms.RichTextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.richTextBox11 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox12 = new System.Windows.Forms.RichTextBox();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
             this.tbControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.tabPage5.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -87,6 +96,7 @@
             this.tbControl.Controls.Add(this.tabPage2);
             this.tbControl.Controls.Add(this.tabPage3);
             this.tbControl.Controls.Add(this.tabPage4);
+            this.tbControl.Controls.Add(this.tabPage5);
             this.tbControl.Location = new System.Drawing.Point(12, 12);
             this.tbControl.Name = "tbControl";
             this.tbControl.SelectedIndex = 0;
@@ -256,6 +266,24 @@
             this.tabPage4.Text = "發佈訂閱模式";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(399, 203);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(91, 23);
+            this.button9.TabIndex = 18;
+            this.button9.Text = "接收消息4-1";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
+            // richTextBox9
+            // 
+            this.richTextBox9.Location = new System.Drawing.Point(274, 107);
+            this.richTextBox9.Name = "richTextBox9";
+            this.richTextBox9.Size = new System.Drawing.Size(263, 90);
+            this.richTextBox9.TabIndex = 17;
+            this.richTextBox9.Text = "";
+            // 
             // textBox3
             // 
             this.textBox3.Location = new System.Drawing.Point(6, 18);
@@ -299,23 +327,83 @@
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
-            // richTextBox9
+            // tabPage5
             // 
-            this.richTextBox9.Location = new System.Drawing.Point(274, 107);
-            this.richTextBox9.Name = "richTextBox9";
-            this.richTextBox9.Size = new System.Drawing.Size(263, 90);
-            this.richTextBox9.TabIndex = 17;
-            this.richTextBox9.Text = "";
+            this.tabPage5.Controls.Add(this.button10);
+            this.tabPage5.Controls.Add(this.richTextBox10);
+            this.tabPage5.Controls.Add(this.textBox4);
+            this.tabPage5.Controls.Add(this.richTextBox11);
+            this.tabPage5.Controls.Add(this.richTextBox12);
+            this.tabPage5.Controls.Add(this.button11);
+            this.tabPage5.Controls.Add(this.button12);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(543, 232);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "路由模式";
+            this.tabPage5.UseVisualStyleBackColor = true;
             // 
-            // button9
+            // button10
             // 
-            this.button9.Location = new System.Drawing.Point(399, 203);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(75, 23);
-            this.button9.TabIndex = 18;
-            this.button9.Text = "接收消息4";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
+            this.button10.Location = new System.Drawing.Point(399, 203);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(92, 23);
+            this.button10.TabIndex = 25;
+            this.button10.Text = "接收消息5—1";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
+            // richTextBox10
+            // 
+            this.richTextBox10.Location = new System.Drawing.Point(274, 107);
+            this.richTextBox10.Name = "richTextBox10";
+            this.richTextBox10.Size = new System.Drawing.Size(263, 90);
+            this.richTextBox10.TabIndex = 24;
+            this.richTextBox10.Text = "";
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(6, 18);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(244, 20);
+            this.textBox4.TabIndex = 23;
+            // 
+            // richTextBox11
+            // 
+            this.richTextBox11.Location = new System.Drawing.Point(274, 6);
+            this.richTextBox11.Name = "richTextBox11";
+            this.richTextBox11.Size = new System.Drawing.Size(263, 90);
+            this.richTextBox11.TabIndex = 22;
+            this.richTextBox11.Text = "";
+            // 
+            // richTextBox12
+            // 
+            this.richTextBox12.Location = new System.Drawing.Point(6, 54);
+            this.richTextBox12.Name = "richTextBox12";
+            this.richTextBox12.Size = new System.Drawing.Size(244, 143);
+            this.richTextBox12.TabIndex = 21;
+            this.richTextBox12.Text = "";
+            // 
+            // button11
+            // 
+            this.button11.Location = new System.Drawing.Point(295, 203);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(75, 23);
+            this.button11.TabIndex = 20;
+            this.button11.Text = "接收消息5";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // button12
+            // 
+            this.button12.Location = new System.Drawing.Point(50, 203);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(75, 23);
+            this.button12.TabIndex = 19;
+            this.button12.Text = "送消息5";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
             // Form1
             // 
@@ -335,6 +423,8 @@
             this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -367,6 +457,14 @@
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.RichTextBox richTextBox9;
         private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.RichTextBox richTextBox10;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.RichTextBox richTextBox11;
+        private System.Windows.Forms.RichTextBox richTextBox12;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button button12;
     }
 }
 

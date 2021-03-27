@@ -13,12 +13,15 @@ using RabbitMQ.Client.Events;
 
 namespace RabbitMqWR
 {
+    public delegate void Show(string msg,RichTextBox richText);
     public partial class Form1 : Form
     {
+        public Show Display;
         public ConnectionFactory factory;
         public IConnection connection;
-        public IModel channel;
-        public IModel subsrcptnModel;
+        public IModel channel;//簡單模式，工作模式
+        public IModel subsrcptnModel;//發佈訂閱模式
+        public IModel RoutingModel;//路由模式
         public Form1()
         {
             InitializeComponent();
@@ -30,9 +33,22 @@ namespace RabbitMqWR
                 Port = 5672
             };
             connection = factory.CreateConnection();
-            channel = connection.CreateModel();
+            channel = connection.CreateModel();//簡單模式，工作模式
             subsrcptnModel = connection.CreateModel();//發佈訂閱模式通道
+            RoutingModel = connection.CreateModel();//路由模式通道
             CheckForIllegalCrossThreadCalls = false;
+            Display = DisplayMsgs;
+            
+        }
+        /// <summary>
+        /// 往richBox中寫提示信息
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="richTextBox"></param>
+        public void DisplayMsgs(string msg, RichTextBox richTextBox)
+        {
+            string message = msg + DateTime.Now.ToString("HHmmssfff"); //传递的消息内容
+            richTextBox.AppendText(message + "\r\n");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -239,11 +255,12 @@ namespace RabbitMqWR
             consumer.Received += (model, ea) =>
             {
                 var body = ea.Body;
-                var message = Encoding.UTF8.GetString(body);
-                Thread.Sleep(6000);
+                var message = Encoding.UTF8.GetString(body) + "-<消費者4>-"; ;
+                //Thread.Sleep(3000);
                 //channel.BasicAck(ea.DeliveryTag,false);//手動發送確認回執
                 //channel.BasicNack(ea.DeliveryTag, false, true);//消息處理異常時重新發送
-                richTextBox7.AppendText(message + "-消費者4-" + DateTime.Now.ToString("HHmmssfff") + "\r\n");
+                //richTextBox7.AppendText(message + "-消費者4-" + DateTime.Now.ToString("HHmmssfff") + "\r\n");
+                Display.BeginInvoke(message, richTextBox7, null, null);
             };
             subsrcptnModel.BasicConsume(queueName, true, consumer);
 
@@ -251,7 +268,7 @@ namespace RabbitMqWR
 
         private void button9_Click(object sender, EventArgs e)
         {
-            //消息接收4
+            //消息接收4-1
             //自动生成对列名,
             //非持久,独占,自动删除
             string queueName = subsrcptnModel.QueueDeclare().QueueName;
@@ -265,13 +282,95 @@ namespace RabbitMqWR
             consumer.Received += (model, ea) =>
             {
                 var body = ea.Body;
-                var message = Encoding.UTF8.GetString(body);
-                Thread.Sleep(6000);
+                var message = Encoding.UTF8.GetString(body) + "-<消費者4-1>-";
+                //Thread.Sleep(3000);
                 //channel.BasicAck(ea.DeliveryTag,false);//手動發送確認回執
                 //channel.BasicNack(ea.DeliveryTag, false, true);//消息處理異常時重新發送
-                richTextBox9.AppendText(message + "-消費者5-" + DateTime.Now.ToString("HHmmssfff") + "\r\n");
+                //richTextBox9.AppendText(message + "-消費者5-" + DateTime.Now.ToString("HHmmssfff") + "\r\n");
+                Display.BeginInvoke(message, richTextBox9, null, null);
             };
             subsrcptnModel.BasicConsume(queueName, true, consumer);
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            //路由模式發送消息5
+            //消息發送5 路由模式發送消息
+            //exchange type fanout
+            string message = textBox4.Text;
+            if (message == "")
+            {
+                MessageBox.Show("消息為空！", "提示", MessageBoxButtons.OK);
+                return;
+            }
+            String[] a = { "warning", "info", "error" };
+            var rdm = new Random();
+            int rdmIdx = rdm.Next()%3;
+            string routingKey = a[rdmIdx];
+
+            RoutingModel.ExchangeDeclare("SysLogs", "direct");//定義fanout交換機
+
+            message = string.Format("{0}<{1},{3}>{2}", "生產者5", message, DateTime.Now.ToString("HHmmssfff"),routingKey); //传递的消息内容
+            richTextBox12.AppendText(message + "\r\n");
+            //第一个参数,向指定的交换机发送消息
+            //第二个参数,不指定队列,由消费者向交换机绑定队列
+            //如果还没有队列绑定到交换器，消息就会丢失，
+            //但这对我们来说没有问题;即使没有消费者接收，我们也可以安全地丢弃这些信息。
+            //          exchange,routingkey,property,msgBody
+            RoutingModel.BasicPublish("SysLogs", routingKey, null, Encoding.UTF8.GetBytes(message)); //生产消息
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            //路由模式 接收消息5
+            //自动生成对列名,
+            //非持久,独占,自动删除
+            string queueName = RoutingModel.QueueDeclare().QueueName;
+            //把该队列,绑定到 logs 交换机
+            //对于 fanout 类型的交换机, routingKey会被忽略，不允许null值
+            RoutingModel.QueueBind(queueName, "SysLogs", "warning");
+
+
+            var consumer = new EventingBasicConsumer(RoutingModel);
+
+            consumer.Received += (model, ea) =>
+            {
+                var body = ea.Body;
+                var message = Encoding.UTF8.GetString(body) + "-<消費者5>-"; ;
+                //Thread.Sleep(3000);
+                //channel.BasicAck(ea.DeliveryTag,false);//手動發送確認回執
+                //channel.BasicNack(ea.DeliveryTag, false, true);//消息處理異常時重新發送
+                //richTextBox7.AppendText(message + "-消費者4-" + DateTime.Now.ToString("HHmmssfff") + "\r\n");
+                Display.BeginInvoke(message, richTextBox11, null, null);
+            };
+            RoutingModel.BasicConsume(queueName, true, consumer);
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            //路由模式 接收消息5-1
+            
+            //自动生成对列名,
+            //非持久,独占,自动删除
+            string queueName = RoutingModel.QueueDeclare().QueueName;
+            //把该队列,绑定到 logs 交换机
+            //对于 fanout 类型的交换机, routingKey会被忽略，不允许null值
+            RoutingModel.QueueBind(queueName, "SysLogs", "error");
+
+
+            var consumer = new EventingBasicConsumer(RoutingModel);
+
+            consumer.Received += (model, ea) =>
+            {
+                var body = ea.Body;
+                var message = Encoding.UTF8.GetString(body) + "-<消費者5-1>-"; ;
+                //Thread.Sleep(3000);
+                //channel.BasicAck(ea.DeliveryTag,false);//手動發送確認回執
+                //channel.BasicNack(ea.DeliveryTag, false, true);//消息處理異常時重新發送
+                //richTextBox7.AppendText(message + "-消費者4-" + DateTime.Now.ToString("HHmmssfff") + "\r\n");
+                Display.BeginInvoke(message, richTextBox10, null, null);
+            };
+            RoutingModel.BasicConsume(queueName, true, consumer);
         }
         
     }

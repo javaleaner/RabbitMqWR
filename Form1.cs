@@ -22,6 +22,7 @@ namespace RabbitMqWR
         public IModel channel;//簡單模式，工作模式
         public IModel subsrcptnModel;//發佈訂閱模式
         public IModel RoutingModel;//路由模式
+        public IModel TopicModel;//主題模式
         public Form1()
         {
             InitializeComponent();
@@ -36,6 +37,7 @@ namespace RabbitMqWR
             channel = connection.CreateModel();//簡單模式，工作模式
             subsrcptnModel = connection.CreateModel();//發佈訂閱模式通道
             RoutingModel = connection.CreateModel();//路由模式通道
+            TopicModel = connection.CreateModel();//主題模式通道
             CheckForIllegalCrossThreadCalls = false;
             Display = DisplayMsgs;
             
@@ -371,6 +373,87 @@ namespace RabbitMqWR
                 Display.BeginInvoke(message, richTextBox10, null, null);
             };
             RoutingModel.BasicConsume(queueName, true, consumer);
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            //主題模式發送消息6
+            string message = textBox5.Text;
+            if (message == "")
+            {
+                MessageBox.Show("消息為空！", "提示", MessageBoxButtons.OK);
+                return;
+            }
+            String[] a = { "warning.test.com", "warning.info.test", "error.info.test" };
+            var rdm = new Random();
+            int rdmIdx = rdm.Next() % 3;
+            string routingKey = a[rdmIdx];
+
+            TopicModel.ExchangeDeclare("OracleLogs", "topic");//定義fanout交換機
+
+            message = string.Format("{0}<{1},{3}>{2}", "生產者6", message, DateTime.Now.ToString("HHmmssfff"), routingKey); //传递的消息内容
+            richTextBox15.AppendText(message + "\r\n");
+            //第一个参数,向指定的交换机发送消息
+            //第二个参数,不指定队列,由消费者向交换机绑定队列
+            //如果还没有队列绑定到交换器，消息就会丢失，
+            //但这对我们来说没有问题;即使没有消费者接收，我们也可以安全地丢弃这些信息。
+            //          exchange,routingkey,property,msgBody
+            TopicModel.BasicPublish("OracleLogs", routingKey, null, Encoding.UTF8.GetBytes(message)); //生产消息
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            //主題模式接收消息6
+            //路由模式 接收消息6
+            //自动生成对列名,
+            //非持久,独占,自动删除
+            string queueName = TopicModel.QueueDeclare().QueueName;
+            //把该队列,绑定到 logs 交换机
+            //对于 fanout 类型的交换机, routingKey会被忽略，不允许null值
+            TopicModel.QueueBind(queueName, "OracleLogs", "warning.*.*");
+            
+
+            var consumer = new EventingBasicConsumer(RoutingModel);
+
+            consumer.Received += (model, ea) =>
+            {
+                var body = ea.Body;
+                var message = Encoding.UTF8.GetString(body) + "-<消費者6>-"; ;
+                //Thread.Sleep(3000);
+                //channel.BasicAck(ea.DeliveryTag,false);//手動發送確認回執
+                //channel.BasicNack(ea.DeliveryTag, false, true);//消息處理異常時重新發送
+                //richTextBox7.AppendText(message + "-消費者4-" + DateTime.Now.ToString("HHmmssfff") + "\r\n");
+                Display.BeginInvoke(message, richTextBox14, null, null);
+            };
+            TopicModel.BasicConsume(queueName, true, consumer);
+
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            //主題模式接收消息6-1
+            //路由模式 接收消息6
+            //自动生成对列名,
+            //非持久,独占,自动删除
+            string queueName = TopicModel.QueueDeclare().QueueName;
+            //把该队列,绑定到 logs 交换机
+            //对于 fanout 类型的交换机, routingKey会被忽略，不允许null值
+            TopicModel.QueueBind(queueName, "OracleLogs", "*.*.test");
+            
+
+            var consumer = new EventingBasicConsumer(RoutingModel);
+
+            consumer.Received += (model, ea) =>
+            {
+                var body = ea.Body;
+                var message = Encoding.UTF8.GetString(body) + "-<消費者6-1>-"; ;
+                //Thread.Sleep(3000);
+                //channel.BasicAck(ea.DeliveryTag,false);//手動發送確認回執
+                //channel.BasicNack(ea.DeliveryTag, false, true);//消息處理異常時重新發送
+                //richTextBox7.AppendText(message + "-消費者4-" + DateTime.Now.ToString("HHmmssfff") + "\r\n");
+                Display.BeginInvoke(message, richTextBox13, null, null);
+            };
+            TopicModel.BasicConsume(queueName, true, consumer);
         }
         
     }

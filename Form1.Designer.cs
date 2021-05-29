@@ -62,12 +62,21 @@
             this.richTextBox12 = new System.Windows.Forms.RichTextBox();
             this.button11 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.button13 = new System.Windows.Forms.Button();
+            this.richTextBox13 = new System.Windows.Forms.RichTextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.richTextBox14 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox15 = new System.Windows.Forms.RichTextBox();
+            this.button14 = new System.Windows.Forms.Button();
+            this.button15 = new System.Windows.Forms.Button();
             this.tbControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabPage5.SuspendLayout();
+            this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -97,6 +106,7 @@
             this.tbControl.Controls.Add(this.tabPage3);
             this.tbControl.Controls.Add(this.tabPage4);
             this.tbControl.Controls.Add(this.tabPage5);
+            this.tbControl.Controls.Add(this.tabPage6);
             this.tbControl.Location = new System.Drawing.Point(12, 12);
             this.tbControl.Name = "tbControl";
             this.tbControl.SelectedIndex = 0;
@@ -114,7 +124,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(543, 232);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "簡單模式";
+            this.tabPage1.Text = "1.簡單模式";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // richTextBox2
@@ -145,7 +155,7 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(543, 232);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "工作模式";
+            this.tabPage2.Text = "2.工作模式";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // textBox1
@@ -203,7 +213,7 @@
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage3.Size = new System.Drawing.Size(543, 232);
             this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "工作消息持久化";
+            this.tabPage3.Text = "3.工作消息持久化";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // textBox2
@@ -263,7 +273,7 @@
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage4.Size = new System.Drawing.Size(543, 232);
             this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "發佈訂閱模式";
+            this.tabPage4.Text = "4.發佈訂閱模式";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // button9
@@ -341,7 +351,7 @@
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage5.Size = new System.Drawing.Size(543, 232);
             this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "路由模式";
+            this.tabPage5.Text = "5.路由模式";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
             // button10
@@ -405,6 +415,84 @@
             this.button12.UseVisualStyleBackColor = true;
             this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.button13);
+            this.tabPage6.Controls.Add(this.richTextBox13);
+            this.tabPage6.Controls.Add(this.textBox5);
+            this.tabPage6.Controls.Add(this.richTextBox14);
+            this.tabPage6.Controls.Add(this.richTextBox15);
+            this.tabPage6.Controls.Add(this.button14);
+            this.tabPage6.Controls.Add(this.button15);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(543, 232);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "6.主题模式";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // button13
+            // 
+            this.button13.Location = new System.Drawing.Point(399, 203);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(92, 23);
+            this.button13.TabIndex = 25;
+            this.button13.Text = "接收消息6—1";
+            this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
+            // 
+            // richTextBox13
+            // 
+            this.richTextBox13.Location = new System.Drawing.Point(274, 107);
+            this.richTextBox13.Name = "richTextBox13";
+            this.richTextBox13.Size = new System.Drawing.Size(263, 90);
+            this.richTextBox13.TabIndex = 24;
+            this.richTextBox13.Text = "";
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(6, 18);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(244, 20);
+            this.textBox5.TabIndex = 23;
+            // 
+            // richTextBox14
+            // 
+            this.richTextBox14.Location = new System.Drawing.Point(274, 6);
+            this.richTextBox14.Name = "richTextBox14";
+            this.richTextBox14.Size = new System.Drawing.Size(263, 90);
+            this.richTextBox14.TabIndex = 22;
+            this.richTextBox14.Text = "";
+            // 
+            // richTextBox15
+            // 
+            this.richTextBox15.Location = new System.Drawing.Point(6, 54);
+            this.richTextBox15.Name = "richTextBox15";
+            this.richTextBox15.Size = new System.Drawing.Size(244, 143);
+            this.richTextBox15.TabIndex = 21;
+            this.richTextBox15.Text = "";
+            // 
+            // button14
+            // 
+            this.button14.Location = new System.Drawing.Point(295, 203);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(75, 23);
+            this.button14.TabIndex = 20;
+            this.button14.Text = "接收消息6";
+            this.button14.UseVisualStyleBackColor = true;
+            this.button14.Click += new System.EventHandler(this.button14_Click);
+            // 
+            // button15
+            // 
+            this.button15.Location = new System.Drawing.Point(50, 203);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(75, 23);
+            this.button15.TabIndex = 19;
+            this.button15.Text = "送消息6";
+            this.button15.UseVisualStyleBackColor = true;
+            this.button15.Click += new System.EventHandler(this.button15_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -425,6 +513,8 @@
             this.tabPage4.PerformLayout();
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
+            this.tabPage6.ResumeLayout(false);
+            this.tabPage6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -465,6 +555,14 @@
         private System.Windows.Forms.RichTextBox richTextBox12;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.RichTextBox richTextBox13;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.RichTextBox richTextBox14;
+        private System.Windows.Forms.RichTextBox richTextBox15;
+        private System.Windows.Forms.Button button14;
+        private System.Windows.Forms.Button button15;
     }
 }
 
